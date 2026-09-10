@@ -14,4 +14,5 @@ public interface AccessGrantRepository extends JpaRepository<AccessGrant, UUID> 
     Optional<AccessGrant> findByAccessCodeAndIsUsedFalseAndExpiresAtAfter(String accessCode, Instant now);
     Optional<AccessGrant> findTopByPatientOrderByCreatedAtDesc(PatientProfile patient);
     Optional<AccessGrant> findTopByPatientIdOrderByCreatedAtDesc(UUID patientId);
+    java.util.List<AccessGrant> findByPatientIdAndIsUsedFalse(UUID patientId);
 }
