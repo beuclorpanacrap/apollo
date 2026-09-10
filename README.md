@@ -1,4 +1,4 @@
-# Apollo - Secure Medical Records Vault Backend
+# Apollo - Medical Records Vault Backend
 
 [![Java](https://img.shields.io/badge/Java-25%20LTS-orange.svg)](https://openjdk.org/projects/jdk/25/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
@@ -27,15 +27,15 @@ Apollo is a secure, shared medical records vault backend engineered to replace t
 
 ## Tech Stack
 
-- **Framework**: Spring Boot 3.4.3
-- **Language**: Java 25 LTS
-- **Build Tool**: Maven (`./mvnw`)
-- **Persistence**: Spring Data JPA / Hibernate
-- **Database**: PostgreSQL (`apollo_db`)
-- **Security**: Spring Security (Stateless JWT authentication)
-- **Validation**: Jakarta Validation (`jakarta.validation`)
-- **API Docs**: Springdoc OpenAPI / Swagger UI 3 (`springdoc-openapi-starter-webmvc-ui`)
-- **Boilerplate Reduction**: Project Lombok
+- **Framework** - Spring Boot 3.4.3
+- **Language** - Java 25 LTS
+- **Build Tool** - Maven (`./mvnw`)
+- **Persistence** - Spring Data JPA / Hibernate
+- **Database** - PostgreSQL (`apollo_db`)
+- **Security** - Spring Security (Stateless JWT authentication)
+- **Validation** - Jakarta Validation (`jakarta.validation`)
+- **API Docs** - Springdoc OpenAPI / Swagger UI 3 (`springdoc-openapi-starter-webmvc-ui`)
+- **Boilerplate Reduction** - Project Lombok
 
 ---
 
