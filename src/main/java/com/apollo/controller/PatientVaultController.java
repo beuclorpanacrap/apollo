@@ -1,5 +1,7 @@
 package com.apollo.controller;
 
+import com.apollo.domain.enums.PrescriptionStatus;
+import com.apollo.dto.prescription.PrescriptionResponse;
 import com.apollo.dto.vault.AccessGrantResponse;
 import com.apollo.dto.vault.CreateHealthConditionRequest;
 import com.apollo.dto.vault.HealthConditionResponse;
@@ -7,6 +9,7 @@ import com.apollo.dto.vault.PatientVaultTimelineResponse;
 import com.apollo.exception.ErrorResponse;
 import com.apollo.security.CustomUserDetails;
 import com.apollo.service.PatientVaultService;
+import com.apollo.service.PrescriptionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,6 +45,7 @@ import java.util.UUID;
 public class PatientVaultController {
 
     private final PatientVaultService patientVaultService;
+    private final PrescriptionService prescriptionService;
 
     @Operation(summary = "Add a baseline health condition or allergy", description = "Records a foundational patient-declared medical condition in the vault.")
     @ApiResponses({
@@ -124,6 +129,23 @@ public class PatientVaultController {
     public ResponseEntity<PatientVaultTimelineResponse> getTimeline(
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         PatientVaultTimelineResponse response = patientVaultService.getTimeline(userDetails.getProfileId());
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "List patient prescriptions", description = "Retrieves all prescriptions issued for the authenticated patient, optionally filtered by status (ACTIVE, FULFILLED, CANCELLED).")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "List of prescriptions retrieved successfully",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = PrescriptionResponse.class)))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized - Missing or invalid JWT",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden - Requires ROLE_PATIENT",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("/prescriptions")
+    public ResponseEntity<List<PrescriptionResponse>> getPrescriptions(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestParam(required = false) PrescriptionStatus status) {
+        List<PrescriptionResponse> response = prescriptionService.getPatientPrescriptions(userDetails.getProfileId(), status);
         return ResponseEntity.ok(response);
     }
 }
