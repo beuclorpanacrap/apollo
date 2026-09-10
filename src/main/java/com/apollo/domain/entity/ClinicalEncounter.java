@@ -54,6 +54,9 @@ public class ClinicalEncounter {
     @Column(name = "encounter_date", nullable = false, updatable = false)
     private LocalDate encounterDate;
 
+    @Column(name = "chief_complaint", length = 255, updatable = false)
+    private String chiefComplaint;
+
     @Column(name = "diagnosis", nullable = false, length = 500, updatable = false)
     private String diagnosis;
 
